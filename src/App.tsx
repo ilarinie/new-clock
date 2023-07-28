@@ -2,13 +2,6 @@ import { format } from "date-fns";
 import { fi } from "date-fns/locale";
 import { useEffect, useState } from "react";
 
-const formatTemp = (temp: number) => {
-  if (temp < 0) {
-    return temp * -1;
-  }
-  return temp;
-};
-
 const App = () => {
   const [date, setDate] = useState(new Date());
   const [weather, setWeather] = useState({
