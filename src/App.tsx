@@ -21,6 +21,8 @@ const App = () => {
       weather: "rainy",
     });
 
+    console.log(weather.maxTemp);
+
     return () => {
       clearInterval(interval);
     };
@@ -34,13 +36,13 @@ const App = () => {
         })}
       </div>
       <div className="date-container">
-        {format(date, "EEEEEE d. MMMM", {
+        {format(date, "EEEE d. MMMM", {
           locale: fi,
         })}
       </div>
-      <div className="weather-container">
+      {/* <div className="weather-container">
         {weather.minTemp} &#8451; {weather.maxTemp}
-      </div>
+      </div> */}
     </>
   );
 };
