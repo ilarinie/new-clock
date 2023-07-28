@@ -1,0 +1,49 @@
+import { format } from "date-fns";
+import { fi } from "date-fns/locale";
+import { useEffect, useState } from "react";
+
+const formatTemp = (temp: number) => {
+  if (temp < 0) {
+    return temp * -1;
+  }
+  return temp;
+};
+
+const App = () => {
+  const [date, setDate] = useState(new Date());
+  const [weather, setWeather] = useState({
+    minTemp: -2,
+    maxTemp: 20,
+    weather: "rainy",
+  });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDate(new Date());
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  });
+
+  return (
+    <>
+      <div className="clock-container">
+        {format(date, "H:mm", {
+          locale: fi,
+        })}
+      </div>
+      <div className="date-container">
+        {format(date, "EEEEEE d. MMMM", {
+          locale: fi,
+        })}
+      </div>
+      <div className="weather-container">
+        {weather.minTemp} &#8451; {weather.maxTemp}
+      </div>
+    </>
+  );
+};
+
+export default App;
