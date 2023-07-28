@@ -15,10 +15,16 @@ const App = () => {
       setDate(new Date());
     }, 1000);
 
+    setWeather({
+      minTemp: -2,
+      maxTemp: 20,
+      weather: "rainy",
+    });
+
     return () => {
       clearInterval(interval);
     };
-  });
+  }, []);
 
   return (
     <>
