@@ -7,6 +7,7 @@ import {
   useWeather,
   weatherCodeMap,
 } from "./useWeather";
+import { WeatherIcon } from "./WeatherIcon";
 
 const App = () => {
   const [date, setDate] = useState(new Date());
@@ -59,6 +60,9 @@ const WeatherDisplay = ({ data }: { data: HourlyData }) => {
     >
       <div>{format(data.time, "H:mm")}</div>
       <div>{data.temperature.toFixed(1)} &#8451;</div>
+      <div>
+        <WeatherIcon description={weatherCodeMap[data.weatherCode]} />
+      </div>
       <div>{weatherCodeMap[data.weatherCode]}</div>
     </div>
   );

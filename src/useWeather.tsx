@@ -30,7 +30,7 @@ type WeatherCode =
   | 85
   | 86
   | 95;
-type WeatherDescription =
+export type WeatherDescription =
   | "Selkeää"
   | "Enimmäkseen selkeää"
   | "Puolipilvistä"

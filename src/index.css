@@ -57,3 +57,10 @@ body {
   align-items: center;
 }
 
+svg {
+  stroke: #eee !important;
+  fill: #eee !important;
+  color: #eee !important;
+  font-size: xx-large;
+}
+
