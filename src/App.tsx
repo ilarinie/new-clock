@@ -36,7 +36,7 @@ const App = () => {
           locale: fi,
         })}
       </div>
-      {weather && (
+      {weather ? (
         <div className="weather-container">
           {Object.keys(weather).map((key) => (
             <WeatherDisplay
@@ -44,6 +44,8 @@ const App = () => {
             />
           ))}
         </div>
+      ) : (
+        <div>Lataa säätä...</div>
       )}
     </div>
   );
@@ -59,7 +61,7 @@ const WeatherDisplay = ({ data }: { data: HourlyData }) => {
       }}
     >
       <div>{format(data.time, "H:mm")}</div>
-      <div>{data.temperature.toFixed(1)} &#8451;</div>
+      <div>{data.temperature.toFixed(1).replace(".", ",")} &#8451;</div>
       <div>
         <WeatherIcon description={weatherCodeMap[data.weatherCode]} />
       </div>

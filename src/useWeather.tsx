@@ -158,14 +158,24 @@ export const useWeather = () => {
     };
   };
 
+  const fetchWeather = async () => {
+    const resp = await axios.get<WeatherResponse>(
+      `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,weathercode&timezone=auto`
+    );
+    setWeather(parseWeatherResponse(resp.data));
+  };
+
   useEffect(() => {
-    const fetchWeather = async () => {
-      const resp = await axios.get<WeatherResponse>(
-        `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,weathercode&timezone=auto`
-      );
-      setWeather(parseWeatherResponse(resp.data));
+    const interval = setInterval(() => fetchWeather(), 30 * 60 * 1000);
+    return () => {
+      clearInterval(interval);
     };
-    fetchWeather();
+  }, []);
+
+  useEffect(() => {
+    if (latitude && longitude) {
+      fetchWeather();
+    }
   }, [latitude, longitude]);
 
   return weather;
