@@ -1,27 +1,22 @@
 import { format } from "date-fns";
 import { fi } from "date-fns/locale";
 import { useEffect, useState } from "react";
+import {
+  HourlyData,
+  WeatherData,
+  useWeather,
+  weatherCodeMap,
+} from "./useWeather";
 
 const App = () => {
   const [date, setDate] = useState(new Date());
-  const [weather, setWeather] = useState({
-    minTemp: -2,
-    maxTemp: 20,
-    weather: "rainy",
-  });
+
+  const weather = useWeather();
 
   useEffect(() => {
     const interval = setInterval(() => {
       setDate(new Date());
-    }, 1000);
-
-    setWeather({
-      minTemp: -2,
-      maxTemp: 20,
-      weather: "rainy",
-    });
-
-    console.log(weather.maxTemp);
+    }, 100000);
 
     return () => {
       clearInterval(interval);
@@ -29,7 +24,7 @@ const App = () => {
   }, []);
 
   return (
-    <>
+    <div className="container">
       <div className="clock-container">
         {format(date, "H:mm", {
           locale: fi,
@@ -40,10 +35,32 @@ const App = () => {
           locale: fi,
         })}
       </div>
-      {/* <div className="weather-container">
-        {weather.minTemp} &#8451; {weather.maxTemp}
-      </div> */}
-    </>
+      {weather && (
+        <div className="weather-container">
+          {Object.keys(weather).map((key) => (
+            <WeatherDisplay
+              data={weather[key as unknown as keyof WeatherData]}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+const WeatherDisplay = ({ data }: { data: HourlyData }) => {
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <div>{format(data.time, "H:mm")}</div>
+      <div>{data.temperature.toFixed(1)} &#8451;</div>
+      <div>{weatherCodeMap[data.weatherCode]}</div>
+    </div>
   );
 };
 

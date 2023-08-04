@@ -33,13 +33,27 @@ body {
 
 .clock-container {
   font-size: 300px;
-}
-div {
   text-align: center;
   width: 100vw;
 }
 
 .date-container {
+  text-align: center;
+  width: 100vw;
   font-size: 30px;
+}
+
+.weather-container {
+  display: flex;
+  justify-content: space-between;
+  width: 500px;
+  margin-top: 2em;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
