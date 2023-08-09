@@ -12,7 +12,12 @@ import { WeatherIcon } from "./WeatherIcon";
 const App = () => {
   const [date, setDate] = useState(new Date());
 
-  const weather = useWeather();
+  const { weather, refreshWeather, locality } = useWeather();
+
+  const onRefreshWeather = () => {
+    refreshWeather();
+    alert(JSON.stringify(locality, null, 2));
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -37,9 +42,10 @@ const App = () => {
         })}
       </div>
       {weather ? (
-        <div className="weather-container">
+        <div className="weather-container" onClick={onRefreshWeather}>
           {Object.keys(weather).map((key) => (
             <WeatherDisplay
+              key={key}
               data={weather[key as unknown as keyof WeatherData]}
             />
           ))}

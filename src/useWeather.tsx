@@ -132,7 +132,9 @@ const findIndexForHour = (hour: number, times: string[]): number => {
 export const useWeather = () => {
   const [weather, setWeather] = useState(undefined as undefined | WeatherData);
 
-  const { latitude, longitude } = useGeolocation();
+  const {
+    location: { latitude, longitude, locality },
+  } = useGeolocation();
 
   const parseWeatherResponse = (response: WeatherResponse): WeatherData => {
     const nineIndex = findIndexForHour(9, response.hourly.time);
@@ -178,5 +180,11 @@ export const useWeather = () => {
     }
   }, [latitude, longitude]);
 
-  return weather;
+  return {
+    weather,
+    latitude,
+    longitude,
+    locality,
+    refreshWeather: fetchWeather,
+  };
 };
