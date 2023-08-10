@@ -160,7 +160,7 @@ export const useWeather = () => {
     };
   };
 
-  const fetchWeather = async () => {
+  const fetchWeather = async (latitude: number, longitude: number) => {
     const resp = await axios.get<WeatherResponse>(
       `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,weathercode&timezone=auto`
     );
@@ -168,7 +168,10 @@ export const useWeather = () => {
   };
 
   useEffect(() => {
-    const interval = setInterval(() => fetchWeather(), 30 * 60 * 1000);
+    const interval = setInterval(
+      () => fetchWeather(latitude, longitude),
+      30 * 60 * 1000
+    );
     return () => {
       clearInterval(interval);
     };
@@ -176,7 +179,7 @@ export const useWeather = () => {
 
   useEffect(() => {
     if (latitude && longitude) {
-      fetchWeather();
+      fetchWeather(latitude, longitude);
     }
   }, [latitude, longitude]);
 
