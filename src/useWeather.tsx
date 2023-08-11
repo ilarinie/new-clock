@@ -3,6 +3,9 @@ import { useGeolocation } from "./useGeolocation";
 import axios from "axios";
 import { isSameDay } from "date-fns";
 
+
+let interval: undefined | NodeJS.Timeout;
+
 type WeatherCode =
   | 0
   | 1
@@ -161,6 +164,7 @@ export const useWeather = () => {
   };
 
   const fetchWeather = async (latitude: number, longitude: number) => {
+    console.log(latitude, longitude);
     const resp = await axios.get<WeatherResponse>(
       `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,weathercode&timezone=auto`
     );
@@ -168,19 +172,17 @@ export const useWeather = () => {
   };
 
   useEffect(() => {
-    const interval = setInterval(
-      () => fetchWeather(latitude, longitude),
-      30 * 60 * 1000
-    );
+    clearInterval(interval);
+    if (latitude && longitude) {
+      interval = setInterval(
+        () => fetchWeather(latitude, longitude),
+        30 * 60 * 1000
+      );
+      fetchWeather(latitude, longitude);
+    }
     return () => {
       clearInterval(interval);
     };
-  }, []);
-
-  useEffect(() => {
-    if (latitude && longitude) {
-      fetchWeather(latitude, longitude);
-    }
   }, [latitude, longitude]);
 
   return {
